@@ -9,18 +9,21 @@ namespace Chapter1
 		{
 			for (int i = 0; i < 10; i++) {
 				Console.WriteLine ("ThreadProc: {0}", i);
-				Thread.Sleep(0);
+				Thread.Sleep(1000);
 			}
 		}
 		public static void Main (string[] args)
 		{
 			var t = new Thread (new ThreadStart (ThreadMethod));
+			t.IsBackground = true;
 			t.Start ();
+			/*
 			for (int i = 0; i < 4; i++) {
 				Console.WriteLine ("Main Thread: Do some work");
 				Thread.Sleep (0);
 			}
 			t.Join ();
+			*/
 		}
 	}
 }
