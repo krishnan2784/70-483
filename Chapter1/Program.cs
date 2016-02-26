@@ -5,16 +5,13 @@ namespace Chapter1
 {
     public static class Program
     {
-        private static ThreadLocal<int> _field = new ThreadLocal<int>(() =>
-        {
-            return Thread.CurrentThread.ManagedThreadId;
-        });
+        private static ThreadLocal<int> _field = new ThreadLocal<int>(() => Thread.CurrentThread.ManagedThreadId);
 
         public static void Main(string[] args)
         {
              new Thread(() =>
             {
-                for (int x = 0; x< _field.Value; x++)
+                for (var x = 0; x< _field.Value; x++)
                 {
                     Console.WriteLine("Thread A: {0}", x);
 
@@ -23,7 +20,7 @@ namespace Chapter1
 
             new Thread(() =>
             {
-                for (int x = 0; x < _field.Value; x++)
+                for (var x = 0; x < _field.Value; x++)
                 {
                     Console.WriteLine("Thread B: {0}", x);
 
