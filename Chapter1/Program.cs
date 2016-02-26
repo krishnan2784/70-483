@@ -5,27 +5,27 @@ namespace Chapter1
 {
     public static class Program
     {
-        [ThreadStatic]
-        public static int _field;
+        private static ThreadLocal<int> _field = new ThreadLocal<int>(() =>
+        {
+            return Thread.CurrentThread.ManagedThreadId;
+        });
 
         public static void Main(string[] args)
         {
              new Thread(() =>
             {
-                for (int i = 0; i<10; i++)
+                for (int x = 0; x< _field.Value; x++)
                 {
-                    _field++;
-                    Console.WriteLine("Thread A: {0}", _field);
+                    Console.WriteLine("Thread A: {0}", x);
 
                 }
             }).Start();
 
             new Thread(() =>
             {
-                for (int i = 0; i < 10; i++)
+                for (int x = 0; x < _field.Value; x++)
                 {
-                    _field++;
-                    Console.WriteLine("Thread B: {0}", _field);
+                    Console.WriteLine("Thread B: {0}", x);
 
                 }
             }).Start();
