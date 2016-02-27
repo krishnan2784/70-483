@@ -12,7 +12,7 @@ namespace Chapter1
 				{
 					return 42;
 				}
-			);
+			).ContinueWith((i)=> {return i.Result *2;});
 			Console.WriteLine (t.Result);
 
         }
