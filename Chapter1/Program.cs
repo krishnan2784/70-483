@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Chapter1
 {
@@ -7,11 +8,16 @@ namespace Chapter1
     {
         public static void Main(string[] args)
         {
-			ThreadPool.QueueUserWorkItem((s) =>
-			{
-					Console.WriteLine("Working on a thread from threadpool");
-			});
-			Console.ReadLine ();
+			var t = Task.Run(()=> 
+				{
+					for(int x =0; x<100;x++)
+					{
+						Console.Write('*');
+					}
+				}
+			);
+			t.Wait ();
+
         }
     }
 }
