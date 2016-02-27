@@ -4,17 +4,27 @@ using System.Threading.Tasks;
 
 namespace Chapter1
 {
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-			var t = Task.Run(()=> 
-				{
-					return 42;
-				}
-			).ContinueWith((i)=> {return i.Result *2;});
-			Console.WriteLine (t.Result);
+	public static class Program
+	{
+		public static void Main (string[] args)
+		{
+			var t = Task.Run (() => {
+				return 42;
+			}
+			        );
+			t.ContinueWith ((i) => {
+				Console.WriteLine ("Cancelled");
+			}, TaskContinuationOptions.OnlyOnCanceled);
 
-        }
-    }
+			t.ContinueWith ((i) => {
+				Console.WriteLine ("Faulted");
+			}, TaskContinuationOptions.OnlyOnFaulted);
+
+			var completedTask = t.ContinueWith ((i) => {
+				Console.WriteLine ("Completed");
+			}, TaskContinuationOptions.OnlyOnRanToCompletion);
+			completedTask.Wait ();
+
+		}
+	}
 }
