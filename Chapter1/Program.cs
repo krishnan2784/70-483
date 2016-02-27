@@ -8,23 +8,18 @@ namespace Chapter1
 	{
 		public static void Main (string[] args)
 		{
-			var t = Task.Run (() => {
-				return 42;
-			}
-			        );
-			t.ContinueWith ((i) => {
-				Console.WriteLine ("Cancelled");
-			}, TaskContinuationOptions.OnlyOnCanceled);
-
-			t.ContinueWith ((i) => {
-				Console.WriteLine ("Faulted");
-			}, TaskContinuationOptions.OnlyOnFaulted);
-
-			var completedTask = t.ContinueWith ((i) => {
-				Console.WriteLine ("Completed");
-			}, TaskContinuationOptions.OnlyOnRanToCompletion);
-			completedTask.Wait ();
-
+			var parent = Task.Run (() => {
+				var results = new Int32[3];
+				new Task (() => results [0] = 0, TaskCreationOptions.AttachedToParent).Start();
+				new Task (() => results [1] = 1, TaskCreationOptions.AttachedToParent).Start();
+				new Task (() => results [2] = 2, TaskCreationOptions.AttachedToParent).Start();
+				return results;
+			});
+			var finalTask = parent.ContinueWith (parentTask => {
+				foreach (var i in parent.Result)
+					Console.WriteLine (i);
+			});
+			finalTask.Wait ();
 		}
 	}
 }
