@@ -10,9 +10,11 @@ namespace Chapter1
 		{
 			var parent = Task.Run (() => {
 				var results = new Int32[3];
-				new Task (() => results [0] = 0, TaskCreationOptions.AttachedToParent).Start();
-				new Task (() => results [1] = 1, TaskCreationOptions.AttachedToParent).Start();
-				new Task (() => results [2] = 2, TaskCreationOptions.AttachedToParent).Start();
+
+				var taskFactory = new TaskFactory (TaskCreationOptions.AttachedToParent, TaskContinuationOptions.ExecuteSynchronously);
+				taskFactory.StartNew (() => results [0] = 0);
+				taskFactory.StartNew (() => results [1] = 1);
+				taskFactory.StartNew (() => results [2] = 2);
 				return results;
 			});
 			var finalTask = parent.ContinueWith (parentTask => {
