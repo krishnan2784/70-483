@@ -10,13 +10,10 @@ namespace Chapter1
         {
 			var t = Task.Run(()=> 
 				{
-					for(int x =0; x<100;x++)
-					{
-						Console.Write('*');
-					}
+					return 42;
 				}
 			);
-			t.Wait ();
+			Console.WriteLine (t.Result);
 
         }
     }
