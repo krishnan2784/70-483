@@ -8,20 +8,24 @@ namespace Chapter1
 	{
 		public static void Main (string[] args)
 		{
-			var parent = Task.Run (() => {
-				var results = new Int32[3];
+			var tasks = new Task[3];
 
-				var taskFactory = new TaskFactory (TaskCreationOptions.AttachedToParent, TaskContinuationOptions.ExecuteSynchronously);
-				taskFactory.StartNew (() => results [0] = 0);
-				taskFactory.StartNew (() => results [1] = 1);
-				taskFactory.StartNew (() => results [2] = 2);
-				return results;
+			tasks [0] = Task.Run (() => {
+				Thread.Sleep(1000);
+				Console.WriteLine("1");
+				return 1;
 			});
-			var finalTask = parent.ContinueWith (parentTask => {
-				foreach (var i in parent.Result)
-					Console.WriteLine (i);
+			tasks [1] = Task.Run (() => {
+				Thread.Sleep(1000);
+				Console.WriteLine("2");
+				return 2;
 			});
-			finalTask.Wait ();
+			tasks [2] = Task.Run (() => {
+				Thread.Sleep(1000);
+				Console.WriteLine("3");
+				return 3;
+			});
+			Task.WaitAll (tasks);
 		}
 	}
 }
