@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Threading;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Chapter1
@@ -9,16 +8,18 @@ namespace Chapter1
 	{
 		public static void Main (string[] args)
 		{
-			var result = Parallel.For (0, 1000, (int i, ParallelLoopState loopState) => 
-				{
-					if(i==500)
-					{
-						Console.WriteLine("Breaking Loop");
-						loopState.Break();
-					}
-					return;
-			});
-			
+		    var result = DownloadContent().Result;
+            Console.WriteLine(result);
 		}
+
+	    public static async Task<string> DownloadContent()
+	    {
+	        using (HttpClient client = new HttpClient())
+	        {
+	            var result = await client.GetStringAsync("http://www.microsoft.com");
+                return result;
+	        }
+	    }
+
 	}
 }
