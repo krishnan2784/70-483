@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Chapter1
 {
@@ -36,5 +37,13 @@ namespace Chapter1
             return taskCompletionSource.Task;
         }
 
-    }
+	    private static async void Button_Click(object sender, RoutedEventArgs e)
+	    {
+            HttpClient httpClient = new HttpClient();
+	        var content = await httpClient.GetStringAsync("http://www.microsoft.com").ConfigureAwait(false);
+	        Output.Content = content;
+
+	    }
+
+	}
 }
