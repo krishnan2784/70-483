@@ -13,12 +13,18 @@ namespace Chapter1
 	{
 		public static void Main (string[] args)
 		{
-			var number = Enumerable.Range (0, 20);
-			var parallelResult = number.AsParallel ().AsOrdered().Where (i => i % 2 == 0).AsSequential();
-			foreach (var i in parallelResult.Take(5))
-				Console.WriteLine (i);
+			var numbers = Enumerable.Range (0, 20);
+
+				var parallelResult = numbers.AsParallel().Where(i=>IsEven(i));
+				parallelResult.ForAll(d=> Console.WriteLine(d));
+
 		}
 
+		public static bool IsEven(int i)
+		{
+			
+			return i % 2 == 0;
+		}
 	    
 	}
 }
