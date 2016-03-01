@@ -11,10 +11,8 @@ namespace Chapter1
             var col = new BlockingCollection<string>();
             var read = Task.Run(() =>
             {
-                while (true)
-                {
-                    Console.WriteLine(col.Take());
-                }
+                foreach(var v in col.GetConsumingEnumerable())
+                    Console.WriteLine(v);
             });
 
             var write = Task.Run(() =>
