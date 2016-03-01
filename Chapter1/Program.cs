@@ -9,20 +9,20 @@ namespace Chapter1
     {
         public static void Main(string[] args)
         {
-            var bag = new ConcurrentBag<int>();
-            Task.Run(() =>
-            {
-                bag.Add(42); Thread.Sleep(1000); bag.Add(21); 
-                
-            });
-            Task.Run(() =>
-            {
-                foreach (var i in bag)
-                {
-                    Console.WriteLine(i);
-                }
+            var stack = new ConcurrentStack<int>();
+            stack.Push(42);
+            int result;
+            if(stack.TryPop(out result))
+                Console.WriteLine("Popped: {0}", result);
+            stack.PushRange(new int[] {1, 2, 3, 4});
 
-            }).Wait();
+            var values = new int[2];
+            stack.TryPopRange(values);
+            foreach (var i in values)
+            {
+                Console.WriteLine(i);
+            }
+            Console.ReadKey();
         }
     }
 }
