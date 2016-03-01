@@ -8,10 +8,7 @@ namespace Chapter1
     {
         public static void Main(string[] args)
         {
-            var bag = new ConcurrentBag<int>();
-            bag.Add(42);
-            bag.Add(21);
-
+            var bag = new ConcurrentBag<int> {42, 21};
             int result;
             if (bag.TryTake(out result))
                 Console.WriteLine(result);
