@@ -4,27 +4,20 @@ using System.Threading.Tasks;
 
 namespace Chapter1
 {
-	public static class Program
-	{
+    public static class Program
+    {
         public static void Main(string[] args)
         {
-            var col = new BlockingCollection<string>();
-            var read = Task.Run(() =>
-            {
-                foreach(var v in col.GetConsumingEnumerable())
-                    Console.WriteLine(v);
-            });
+            var bag = new ConcurrentBag<int>();
+            bag.Add(42);
+            bag.Add(21);
 
-            var write = Task.Run(() =>
-            {
-                while (true)
-                {
-                    var s = Console.ReadLine();
-                    if (string.IsNullOrWhiteSpace(s)) break;
-                    col.Add(s);
-                }
-            });
-            write.Wait();
+            int result;
+            if (bag.TryTake(out result))
+                Console.WriteLine(result);
+            if(bag.TryPeek(out result))
+                Console.WriteLine("There is a next item: {0}", result);
+
         }
     }
 }
