@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace Chapter1
 {
@@ -8,20 +9,17 @@ namespace Chapter1
         public static void Main(string[] args)
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
-            var dict = new ConcurrentDictionary<string, int>();
+            var n = 0;
+            var up = Task.Run(() =>
+            {
+                for (var i = 0; i < 1000000; i++)
+                    n++;
+            });
+            for (var i = 0; i < 1000000; i++)
+                n--;
 
-            if(dict.TryAdd("k1", 42))
-                Console.WriteLine("Added");
-            if (dict.TryUpdate("k1", 21, 42))
-                Console.WriteLine("42 updated to 21");
-
-            dict["k1"] = 42;
-            var r1 = dict.AddOrUpdate("k1", 3, (s,i)=>i*2);
-            var r2 = dict.GetOrAdd("k2", 3);
-
-            Console.WriteLine(r1);
-            Console.WriteLine(r2);
-
+            up.Wait();
+            Console.WriteLine(n);
             Console.ReadKey();
 
         }
