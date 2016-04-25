@@ -10,31 +10,18 @@ namespace Chapter1
         public static void Main(string[] args)
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
-            object lockA = new object();
-            object lockB = new object();
-            var up = Task.Run(() =>
+            var gate = new object();
+            var lockTaken = false;
+            try
             {
-                lock (lockA)
-                {
-                    Thread.Sleep(1000);
-                    lock (lockB)
-                    {
-                        Console.WriteLine("Locked A and B");
-                    }
-                }
-            });
-            lock (lockB)
-            {
-                lock (lockA)
-                {
-                    Console.WriteLine("Locked B and A");
-                }
+                Monitor.Enter(gate, ref lockTaken);
             }
-            up.Wait();
+            finally
+            {
+                if(lockTaken)
+                    Monitor.Exit(gate);
+            }
             Console.ReadKey();
-
         }
-
-
     }
 }
