@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Chapter1
@@ -9,22 +10,27 @@ namespace Chapter1
         public static void Main(string[] args)
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
-            var n = 0;
-            var _lock = new object();
-
+            object lockA = new object();
+            object lockB = new object();
             var up = Task.Run(() =>
             {
-                for (var i = 0; i < 1000000; i++)
-                    lock (_lock)
-                        n++;
+                lock (lockA)
+                {
+                    Thread.Sleep(1000);
+                    lock (lockB)
+                    {
+                        Console.WriteLine("Locked A and B");
+                    }
+                }
             });
-
-            for (var i = 0; i < 1000000; i++)
-                lock (_lock)
-                    n--;
-
+            lock (lockB)
+            {
+                lock (lockA)
+                {
+                    Console.WriteLine("Locked B and A");
+                }
+            }
             up.Wait();
-            Console.WriteLine(n);
             Console.ReadKey();
 
         }
