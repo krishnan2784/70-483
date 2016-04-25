@@ -10,13 +10,18 @@ namespace Chapter1
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
             var n = 0;
+            var _lock = new object();
+
             var up = Task.Run(() =>
             {
                 for (var i = 0; i < 1000000; i++)
-                    n++;
+                    lock (_lock)
+                        n++;
             });
+
             for (var i = 0; i < 1000000; i++)
-                n--;
+                lock (_lock)
+                    n--;
 
             up.Wait();
             Console.WriteLine(n);
