@@ -11,20 +11,21 @@ namespace Chapter1
         {
             if (args == null)
                 throw new ArgumentNullException(nameof(args));
+            int[] n = { 0 };
 
+            var up = Task.Run(() =>
+            {
+                for (var i = 0; i < 1000000; i++)
+                    Interlocked.Increment(ref n[0]);
 
-            private static volatile int _flag = 0;
-        private static int _value = 0;
-            public static void Thread1()
-            {
-                _value = 5;
-                _flag = 1;
-            }
-            public static void Thread2()
-            {
-                    if (_flag == 1)
-                        Console.WriteLine(_value);
-            }
+            });
+
+            for (var i = 0; i < 1000000; i++)
+                Interlocked.Increment(ref n[0]);
+
+            up.Wait();
+            Console.WriteLine(n[0]);
+            Console.ReadKey();
         }
     }
 }
