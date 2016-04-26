@@ -9,19 +9,22 @@ namespace Chapter1
     {
         public static void Main(string[] args)
         {
-            if (args == null) throw new ArgumentNullException(nameof(args));
-            var gate = new object();
-            var lockTaken = false;
-            try
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
+
+
+            private static volatile int _flag = 0;
+        private static int _value = 0;
+            public static void Thread1()
             {
-                Monitor.Enter(gate, ref lockTaken);
+                _value = 5;
+                _flag = 1;
             }
-            finally
+            public static void Thread2()
             {
-                if(lockTaken)
-                    Monitor.Exit(gate);
+                    if (_flag == 1)
+                        Console.WriteLine(_value);
             }
-            Console.ReadKey();
         }
     }
 }
