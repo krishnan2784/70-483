@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,24 +6,22 @@ namespace Chapter1
 {
     public static class Program
     {
+        private static int _value = 1;
         public static void Main(string[] args)
         {
-            if (args == null)
-                throw new ArgumentNullException(nameof(args));
-            int[] n = { 0 };
-
-            var up = Task.Run(() =>
+            var t1 = Task.Run(() =>
             {
-                for (var i = 0; i < 1000000; i++)
-                    Interlocked.Increment(ref n[0]);
-
+                if (_value != 1) return;
+                Thread.Sleep(1000);
+                _value = 2;
             });
-
-            for (var i = 0; i < 1000000; i++)
-                Interlocked.Increment(ref n[0]);
-
-            up.Wait();
-            Console.WriteLine(n[0]);
+            var t2 = Task.Run(() =>
+            {
+                _value = 3;
+            });
+            Task.WaitAll(t1, t2);
+            Console.WriteLine(_value);
+            
             Console.ReadKey();
         }
     }
