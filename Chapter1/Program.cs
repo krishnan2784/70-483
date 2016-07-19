@@ -9,11 +9,20 @@ namespace Chapter1
 
         public static void Main(string[] args)
         {
-            bool x = true;
-            bool y = false;
-            bool result = x || y;
-            Console.WriteLine(result);
+            OrShortCircuit();
             Console.ReadLine();
+        }
+
+        public static void OrShortCircuit()
+        {
+            bool x = true;
+            bool result = x || GetY();
+        }
+
+        private static bool GetY()
+        {
+            Console.Write("This Method doesn't get called");
+            return true;
         }
     }
 }
