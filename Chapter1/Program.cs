@@ -9,12 +9,12 @@ namespace Chapter1
 
         public static void Main(string[] args)
         {
-            var longRunning = Task.Run(() => { Thread.Sleep(10000); });
-            var index = Task.WaitAny(new[] {longRunning}, 1000);
-            if (index == -1)
-            {
-                Console.WriteLine("Task Timed Out");
-            }
+            var x = 42;
+            var y = 1;
+            var z = 42;
+            Console.WriteLine(x==y);
+            Console.WriteLine(x==z);
+            Console.ReadLine();
         }
     }
 }
