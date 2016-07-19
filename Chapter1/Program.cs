@@ -19,7 +19,11 @@ namespace Chapter1
                         Thread.Sleep(1000);
                     }
                     token.ThrowIfCancellationRequested();
-                }, token);
+                }, token).ContinueWith((t) =>
+                {
+                    t.Exception?.Handle((e) => true);
+                    Console.WriteLine("You have canceled the task");
+                }, TaskContinuationOptions.OnlyOnCanceled);
 
 
             try
