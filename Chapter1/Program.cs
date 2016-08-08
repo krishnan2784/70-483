@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Chapter1
 {
@@ -9,20 +7,12 @@ namespace Chapter1
 
         public static void Main(string[] args)
         {
-            OrShortCircuit();
+            var value = 42;
+            var result = (0 < value) && (value < 100);
+            Console.Write(result.ToString());
             Console.ReadLine();
         }
 
-        public static void OrShortCircuit()
-        {
-            bool x = true;
-            bool result = x || GetY();
-        }
 
-        private static bool GetY()
-        {
-            Console.Write("This Method doesn't get called");
-            return true;
-        }
     }
 }
