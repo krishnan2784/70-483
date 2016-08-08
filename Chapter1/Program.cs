@@ -7,12 +7,28 @@ namespace Chapter1
 
         public static void Main(string[] args)
         {
-            var value = 42;
-            var result = (0 < value) && (value < 100);
-            Console.Write(result.ToString());
+            OrShortCircuit();
             Console.ReadLine();
         }
 
+        public static void OrShortCircuit()
+        {
+            bool x = true;
+            bool result = x || GetY();
+            Console.WriteLine(result.ToString());
+        }
+
+        private static bool GetY()
+        {
+            Console.Write("This method doesn't get called");
+            return true;
+        }
+
+        public static void Process(string input)
+        {
+            bool result = (input != null) && input.StartsWith("v");
+
+        }
 
     }
 }
