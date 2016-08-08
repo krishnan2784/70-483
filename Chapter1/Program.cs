@@ -7,11 +7,14 @@ namespace Chapter1
 
         public static void Main(string[] args)
         {
-            var b = true;
+            var b = false;
             if (b)
             {
-                int r = 42;
-                b = false;
+               Console.WriteLine("True");
+            }
+            else
+            {
+                Console.WriteLine("False");
             }
 
             Console.ReadLine();
