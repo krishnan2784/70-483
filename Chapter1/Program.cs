@@ -10,8 +10,8 @@ namespace Chapter1
             var b = true;
             if (b)
             {
-                Console.WriteLine("Both theses lines");
-                Console.WriteLine("Will be executed");
+                int r = 42;
+                b = false;
             }
 
             Console.ReadLine();
