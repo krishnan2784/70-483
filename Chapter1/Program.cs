@@ -8,8 +8,12 @@ namespace Chapter1
         public static void Main(string[] args)
         {
             var b = true;
-            if(b)
-                Console.WriteLine("True");
+            if (b)
+            {
+                Console.WriteLine("Both theses lines");
+                Console.WriteLine("Will be executed");
+            }
+
             Console.ReadLine();
         }
 
