@@ -6,22 +6,31 @@ namespace Chapter1
     {
         public static void Main(string[] args)
         {
-            var b = false;
-            var c = true;
-            if (b)
+            var x = true;
+            var y = false;
+            if (x)
             {
-               Console.WriteLine("b is true");
-            }
-            else if (c)
-            {
-                Console.WriteLine("c is true");
-            }
-            else
-            {
-                Console.WriteLine("both b and c are false");
+                if (y)
+                {
+                    F();
+                }
+                else
+                {
+                    G();
+                }
             }
 
             Console.ReadLine();
+        }
+
+        private static void F()
+        {
+            Console.WriteLine("Both x and y are true.");
+        }
+
+        private static void G()
+        {
+            Console.WriteLine("x is true and y is false");
         }
     }
 }
